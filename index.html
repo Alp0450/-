@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Пътешествия и Пейзажи</title>
+    <link rel="stylesheet" href="st.css">
+</head>
+<body>
+
+<header>
+    <h1>Пътешествия и Пейзажи</h1>
+    <p>Открийте красотата на света!</p>
+</header>
+
+<section>
+    <h2>Нашите приключения</h2>
+    
+    <div class="slider">
+        <div class="slides" id="slides">
+            <div class="slide active">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Планина">
+                <div class="caption">Спиращи дъха планини при залез</div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Плаж">
+                <div class="caption">Тюркоазени води и пясъчни плажове</div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1495344517868-8ebaf0a2044a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Гора">
+                <div class="caption">Приказни горски пътеки</div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Град">
+                <div class="caption">Светлините на големия град</div>
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Пустиня">
+                <div class="caption">Безкрайни златни пустини</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="userPrevSlide()">⬅️ Назад</button>
+        <button onclick="userNextSlide()">Напред ➡️</button>
+    </div>
+
+    <div class="dots" id="dots"></div>
+
+</section>
+
+<footer>
+    &copy; 2025 Пътешествия и Пейзажи. Всички права запазени.
+</footer>
+
+<script>
+    let index = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dots');
+    let autoSlideInterval = setInterval(showNextSlide, 4000);
+    let interactionTimer;
+
+    // Създаване на точки
+    slides.forEach((_, i) => {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        dot.addEventListener('click', () => {
+            index = i;
+            updateSlide();
+            pauseAutoSlide();
+        });
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function updateSlide() {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+    }
+
+    function showNextSlide() {
+        index = (index + 1) % slides.length;
+        updateSlide();
+    }
+
+    function showPrevSlide() {
+        index = (index - 1 + slides.length) % slides.length;
+        updateSlide();
+    }
+
+    function pauseAutoSlide() {
+        clearInterval(autoSlideInterval);
+        clearTimeout(interactionTimer);
+        interactionTimer = setTimeout(() => {
+            autoSlideInterval = setInterval(showNextSlide, 4000);
+        }, 10000); // Пауза за 10 секунди
+    }
+
+    function userNextSlide() {
+        showNextSlide();
+        pauseAutoSlide();
+    }
+
+    function userPrevSlide() {
+        showPrevSlide();
+        pauseAutoSlide();
+    }
+
+    updateSlide(); // Първоначално отбелязване на точките
+</script>
+
+</body>
+</html>
